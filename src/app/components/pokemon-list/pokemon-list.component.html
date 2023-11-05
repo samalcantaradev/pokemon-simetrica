@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="main-content">
+    <div class="navbar">
+    </div>
+    <div class="search-bar">
+      <mat-form-field>
+        <input matInput placeholder="Buscar Pokemon" (keyup)="applyFilter($event)">
+      </mat-form-field>
+    </div>
+
+    <div class="filter-section">
+      <mat-form-field>
+        <mat-label>Filtrar por tipo</mat-label>
+        <mat-select (selectionChange)="filterByType($event.value)">
+          <mat-option *ngFor="let type of types" [value]="type">{{ type }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Filtrar por habilidad</mat-label>
+        <mat-select [(value)]="abilityFilter" (selectionChange)="filterByAbility()">
+          <mat-option *ngFor="let ability of abilities" [value]="ability">{{ ability }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Filtrar por altura</mat-label>
+        <mat-select [(value)]="heightFilter" (selectionChange)="filterByHeight()">
+          <mat-option value="small">Pequeña</mat-option>
+          <mat-option value="medium">Media</mat-option>
+          <mat-option value="large">Grande</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Filtrar por peso</mat-label>
+        <mat-select [(value)]="weightFilter" (selectionChange)="filterByWeight()">
+          <mat-option value="light">Ligero</mat-option>
+          <mat-option value="middle">Medio</mat-option>
+          <mat-option value="heavy">Pesado</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="resetFilters()">Restablecer filtros</button>
+
+    </div>
+    <div class="sort-options">
+      <mat-form-field>
+        <mat-label>Ordenar por</mat-label>
+        <mat-select [(value)]="sortOrder" (selectionChange)="sortPokemons()">
+          <mat-option value="lowest">Número (Menor a mayor)</mat-option>
+          <mat-option value="highest">Número (Mayor a menor)</mat-option>
+          <mat-option value="az">Nombre (A-Z)</mat-option>
+          <mat-option value="za">Nombre (Z-A)</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="pokemon-list">
+      <mat-grid-list cols="3" rowHeight="350px">
+        <mat-grid-tile *ngFor="let pokemon of pokemons">
+          <mat-card class="pokemon-card">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>{{ pokemon.name }}</mat-card-title>
+                <mat-card-subtitle>{{ pokemon.id }}</mat-card-subtitle>
+                <img mat-card-sm-image [src]="pokemon.sprites?.front_default" alt="{{ pokemon.name }}">
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ getPokemonTypes(pokemon) }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button (click)="addToFavorites(pokemon)">Agregar a Favoritos</button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <div class="pagination">
+      <mat-paginator [length]="totalPokemons" [pageSize]="pageSize" (page)="onPageChange($event)"></mat-paginator>
+    </div>

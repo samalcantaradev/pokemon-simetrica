@@ -1,0 +1,24 @@
+<div class="container">
+<div class="favorite-list">
+  <mat-grid-list cols="3" rowHeight="350px">
+    <mat-grid-tile *ngFor="let favorito of favoritos">
+      <mat-card class="favorite-card">
+        <mat-card-header>
+          <mat-card-title-group>
+            <img mat-card-sm-image [src]="favorito.image" alt="{{ favorito.name }}">
+            <mat-card-title>{{ favorito.name }}</mat-card-title>
+            <mat-card-subtitle>{{ favorito.number }}</mat-card-subtitle>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Alias: {{ favorito.alias }}</p>
+          <p>Fecha de creación: {{ favorito.createdAt | date }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="warn" [routerLink]="['/favorite-edit', favorito.name]" style="margin-right: 10px;">Editar</button>
+          <button mat-raised-button color="warn" (click)="deleteFavorite(favorito)">Eliminar</button>          
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

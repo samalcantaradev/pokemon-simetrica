@@ -1,0 +1,24 @@
+<div class="container" *ngIf="favorito">
+  <form #favoritoForm="ngForm" (ngSubmit)="updateFavorite()">
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput [(ngModel)]="favorito.name" name="name" disabled>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Alias</mat-label>
+      <input matInput [(ngModel)]="favorito.alias" name="alias" required #alias="ngModel">
+      <mat-error *ngIf="alias.invalid && (alias.dirty || alias.touched)">
+        El alias es requerido.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Fecha de Creación</mat-label>
+      <input matInput [(ngModel)]="favorito.createdAt" name="createdAt" disabled>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!favoritoForm.form.valid" (click)="updateFavorite();">Guardar</button>
+
+  </form>
+</div>
